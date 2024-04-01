@@ -47,17 +47,17 @@ module "synapse_sql_pool" {
   depends_on = [ azurerm_synapse_workspace.synapse ]
 }
 
-# resource "azurerm_synapse_firewall_rule" "synapse_firewall_rule" {
-#   name                 = "AllowAll"
-#   synapse_workspace_id = azurerm_synapse_workspace.synapse.id
-#   start_ip_address     = "0.0.0.0"
-#   end_ip_address       = "255.255.255.255"
-# }
+resource "azurerm_synapse_firewall_rule" "synapse_firewall_rule" {
+  name                 = "AllowAll"
+  synapse_workspace_id = azurerm_synapse_workspace.synapse.id
+  start_ip_address     = "0.0.0.0"
+  end_ip_address       = "255.255.255.255"
+}
 
-# resource "azurerm_synapse_role_assignment" "example" {
-#   synapse_workspace_id = azurerm_synapse_workspace.synapse.id
-#   role_name            = "Synapse SQL Administrator"
-#   principal_id         = var.synapse_aad_admin_object_id
+resource "azurerm_synapse_role_assignment" "synapse_rbac" {
+  synapse_workspace_id = azurerm_synapse_workspace.synapse.id
+  role_name            = "Synapse Administrator"
+  principal_id         = var.synapse_aad_admin_object_id
 
-#   depends_on = [azurerm_synapse_firewall_rule.example]
-# }
+  depends_on = [azurerm_synapse_firewall_rule.synapse_firewall_rule]
+}
