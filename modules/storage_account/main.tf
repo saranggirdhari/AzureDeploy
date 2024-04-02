@@ -39,3 +39,7 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "adls_fs" {
 output "adls_fs_id" {
   value = azurerm_storage_data_lake_gen2_filesystem.adls_fs.id
 }
+
+output "storage_account_access_key" {
+  value = azurerm_storage_account.storage_account.primary_access_key
+}
